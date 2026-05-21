@@ -3,7 +3,7 @@ import axios from 'axios';
 import { PlusCircle, Trash2, CheckCircle, Circle, Loader2, Sparkles, AlertCircle, LayoutList, Edit3, X, Save } from 'lucide-react';
 import './App.css';
 
-const API_URL = 'http://127.0.0.1:8000/todos';
+const API_URL = import.meta.env.VITE_API_URL
 
 function App() {
   const [todos, setTodos] = useState([]);
