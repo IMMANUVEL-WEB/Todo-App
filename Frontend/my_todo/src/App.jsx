@@ -127,7 +127,7 @@ function App() {
           <div className="relative z-10 shrink-0">
             <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 via-purple-400 to-cyan-400 mb-2 flex items-center gap-3">
               <Sparkles className="w-8 h-8 text-indigo-400" />
-              Task Master
+              Task Master's
             </h1>
             <p className="text-slate-400 text-sm lg:text-base mb-6 max-w-sm">
               Level up your productivity with a beautiful, rich interface designed to keep you focused.
