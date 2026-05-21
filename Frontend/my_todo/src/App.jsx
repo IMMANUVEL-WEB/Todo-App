@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { PlusCircle, Trash2, CheckCircle, Circle, Loader2, Sparkles, AlertCircle, LayoutList, Edit3, X, Save } from 'lucide-react';
+import { PlusCircle, Trash2, CheckCircle, Circle, Loader2, Sparkles, AlertCircle, LayoutList, Edit3, X, Save, Sun, Moon } from 'lucide-react';
 import './App.css';
 
 const API_URL = `${import.meta.env.VITE_API_URL}/todos`
@@ -15,6 +15,15 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
   const [editDescription, setEditDescription] = useState('');
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   useEffect(() => {
     fetchTodos();
@@ -110,7 +119,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex justify-center items-center p-0 sm:p-4 lg:p-8 relative selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-transparent flex justify-center items-center p-0 sm:p-4 lg:p-8 relative selection:bg-indigo-500/30 transition-colors duration-500">
       
       {/* Animated Background Orbs */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
@@ -122,14 +131,23 @@ function App() {
       <div className="max-w-7xl w-full min-h-screen lg:min-h-0 lg:h-[90vh] glass-panel rounded-none sm:rounded-[2.5rem] flex flex-col lg:flex-row lg:overflow-hidden shadow-indigo-900/20 animate-fade-in relative z-10">
         
         {/* LEFT COLUMN - Branding, 3D Character, Form */}
-        <div className="w-full lg:w-5/12 p-6 lg:p-10 flex flex-col border-b lg:border-b-0 lg:border-r border-slate-700/50 relative overflow-y-auto custom-scrollbar group lg:shrink-0 lg:h-full">
+        <div className="w-full lg:w-5/12 p-6 lg:p-10 flex flex-col border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-700/50 relative overflow-y-auto custom-scrollbar group lg:shrink-0 lg:h-full transition-colors duration-500">
           
           <div className="relative z-10 shrink-0">
-            <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 via-purple-400 to-cyan-400 mb-2 flex items-center gap-3">
-              <Sparkles className="w-8 h-8 text-indigo-400" />
-              Task Master's
-            </h1>
-            <p className="text-slate-400 text-sm lg:text-base mb-6 max-w-sm">
+            <div className="flex justify-between items-start mb-2">
+              <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 via-purple-400 to-cyan-400 flex items-center gap-3">
+                <Sparkles className="w-8 h-8 text-indigo-400" />
+                Task Master's
+              </h1>
+              <button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="p-2.5 rounded-xl transition-colors duration-300 bg-slate-200/50 text-slate-700 hover:bg-slate-300 dark:bg-slate-800/50 dark:text-yellow-400 dark:hover:bg-slate-700 backdrop-blur-md"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+            </div>
+            <p className="text-slate-600 dark:text-slate-400 text-sm lg:text-base mb-6 max-w-sm transition-colors duration-300">
               Level up your productivity with a beautiful, rich interface designed to keep you focused.
             </p>
           </div>
@@ -179,10 +197,10 @@ function App() {
         </div>
 
         {/* RIGHT COLUMN - Task List */}
-        <div className="w-full lg:w-7/12 p-6 sm:p-8 lg:p-12 flex flex-col min-h-[60vh] lg:h-full bg-slate-900/20 lg:overflow-hidden">
+        <div className="w-full lg:w-7/12 p-6 sm:p-8 lg:p-12 flex flex-col min-h-[60vh] lg:h-full bg-slate-100/50 dark:bg-slate-900/20 lg:overflow-hidden transition-colors duration-500">
           
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-slate-200 flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 flex items-center gap-3 transition-colors duration-300">
               <LayoutList className="w-6 h-6 text-purple-400" />
               Your Tasks
             </h2>
@@ -206,18 +224,18 @@ function App() {
             {loading ? (
               <div className="h-full flex flex-col items-center justify-center space-y-4">
                 <Loader2 className="w-12 h-12 text-indigo-500 animate-spin" />
-                <p className="text-slate-400 animate-pulse">Loading tasks...</p>
+                <p className="text-slate-600 dark:text-slate-400 animate-pulse transition-colors duration-300">Loading tasks...</p>
               </div>
             ) : todos.length === 0 && !error ? (
               <div className="h-full flex flex-col items-center justify-center text-center px-6 animate-slide-up">
                 <div className="w-32 h-32 mb-6 relative">
                   <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 rounded-full animate-blob"></div>
                   <div className="absolute inset-2 glass-panel rounded-full flex items-center justify-center">
-                    <Sparkles className="w-12 h-12 text-indigo-400" />
+                    <Sparkles className="w-12 h-12 text-indigo-500 dark:text-indigo-400" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-slate-200 mb-2">You're all caught up!</h3>
-                <p className="text-slate-400 max-w-sm">No active tasks right now. Take a break, or add a new task to keep the momentum going.</p>
+                <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2 transition-colors duration-300">You're all caught up!</h3>
+                <p className="text-slate-600 dark:text-slate-400 max-w-sm transition-colors duration-300">No active tasks right now. Take a break, or add a new task to keep the momentum going.</p>
               </div>
             ) : (
               <div className="flex flex-col gap-4">
@@ -236,20 +254,20 @@ function App() {
                             type="text"
                             value={editTitle}
                             onChange={(e) => setEditTitle(e.target.value)}
-                            className="w-full glass-input rounded-lg px-4 py-2 text-slate-100 placeholder-slate-500 outline-none text-lg font-bold transition-all duration-300"
+                            className="w-full glass-input rounded-lg px-4 py-2 text-lg font-bold transition-all duration-300"
                             placeholder="Edit Title..."
                           />
                           <textarea
                             value={editDescription}
                             onChange={(e) => setEditDescription(e.target.value)}
-                            className="w-full glass-input rounded-lg px-4 py-2 text-slate-100 placeholder-slate-500 outline-none text-sm transition-all duration-300 resize-none"
+                            className="w-full glass-input rounded-lg px-4 py-2 text-sm transition-all duration-300 resize-none"
                             placeholder="Edit Description..."
                             rows="2"
                           />
                           <div className="flex justify-end gap-2 mt-2">
                             <button
                               onClick={cancelEdit}
-                              className="px-4 py-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors flex items-center gap-2"
+                              className="px-4 py-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition-colors flex items-center gap-2"
                             >
                               <X className="w-4 h-4" /> Cancel
                             </button>
@@ -268,8 +286,8 @@ function App() {
                             onClick={() => toggleComplete(todo)}
                             className={`mt-1 flex-shrink-0 transition-all duration-300 hover:scale-110 ${
                               todo.Completed 
-                                ? 'text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]' 
-                                : 'text-slate-500 hover:text-indigo-400'
+                                ? 'text-cyan-500 dark:text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.3)] dark:drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]' 
+                                : 'text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400'
                             }`}
                           >
                             {todo.Completed ? (
@@ -281,28 +299,28 @@ function App() {
                           
                           <div className="flex-1 min-w-0">
                             <h3 className={`text-lg font-bold truncate transition-all duration-300 ${
-                              todo.Completed ? 'text-slate-500 line-through' : 'text-slate-100 group-hover:text-indigo-200'
+                              todo.Completed ? 'text-slate-400 dark:text-slate-500 line-through' : 'text-slate-800 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-200'
                             }`}>
                               {todo.Title}
                             </h3>
                             <p className={`mt-2 text-sm leading-relaxed transition-all duration-300 ${
-                              todo.Completed ? 'text-slate-600' : 'text-slate-400'
+                              todo.Completed ? 'text-slate-500 dark:text-slate-600' : 'text-slate-600 dark:text-slate-400'
                             }`}>
                               {todo.Description}
                             </p>
                           </div>
 
-                          <div className="opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 flex flex-col sm:flex-row gap-1 transition-all duration-300">
+                          <div className="flex flex-col sm:flex-row gap-1 transition-all duration-300">
                             <button
                               onClick={() => startEditing(todo)}
-                              className="p-2.5 text-slate-500 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-xl transition-all duration-300 backdrop-blur-md border border-transparent hover:border-indigo-500/20"
+                              className="p-2.5 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-500/10 rounded-xl transition-all duration-300 backdrop-blur-md border border-transparent hover:border-indigo-500/20"
                               aria-label="Edit task"
                             >
                               <Edit3 className="w-5 h-5" />
                             </button>
                             <button
                               onClick={() => handleDelete(todo.id)}
-                              className="p-2.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all duration-300 backdrop-blur-md border border-transparent hover:border-red-500/20"
+                              className="p-2.5 text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all duration-300 backdrop-blur-md border border-transparent hover:border-red-500/20"
                               aria-label="Delete task"
                             >
                               <Trash2 className="w-5 h-5" />
